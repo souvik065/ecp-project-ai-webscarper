@@ -1,29 +1,40 @@
 from selenium.webdriver import Remote, ChromeOptions
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chromium.remote_connection import ChromiumRemoteConnection
 from bs4 import BeautifulSoup
+from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
+from selenium import webdriver
 import os
 
 load_dotenv()
 
-SBR_WEBDRIVER = os.getenv("SBR_WEBDRIVER")
-
-
+# SBR_WEBDRIVER = os.getenv("SBR_WEBDRIVER")
+SBR_WEBDRIVER="chromedriver-win64\chromedriver.exe"
+print(f"Driver connected to : {SBR_WEBDRIVER}")
 def scrape_website(website):
     print("Connecting to Scraping Browser...")
+    # Set Chrome options (optional headless mode)
+    options = Options()
+    options.add_argument("--headless")  # Run in headless mode
+    options.add_argument("--disable-gpu")  # Disable GPU rendering
+    options.add_argument("--no-sandbox")  # Bypass OS security model
+    options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+    )
     sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, "goog", "chrome")
-    with Remote(sbr_connection, options=ChromeOptions()) as driver:
+    
+     # Set up Chrome WebDriver service
+    service = Service(executable_path=SBR_WEBDRIVER)
+   # Initialize the WebDriver
+    with webdriver.Chrome(service=service, options=options) as driver:
+        print(f"Navigating to {website}...")
         driver.get(website)
-        print("Waiting captcha to solve...")
-        solve_res = driver.execute(
-            "executeCdpCommand",
-            {
-                "cmd": "Captcha.waitForSolve",
-                "params": {"detectTimeout": 10000},
-            },
-        )
-        print("Captcha solve status:", solve_res["value"]["status"])
-        print("Navigated! Scraping page content...")
+
+        # Wait for the page to load
+        driver.implicitly_wait(10)
+
+        print("Scraping page content...")
         html = driver.page_source
         return html
 
