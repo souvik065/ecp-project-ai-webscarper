@@ -9,8 +9,8 @@ import os
 
 load_dotenv()
 
-# SBR_WEBDRIVER = os.getenv("SBR_WEBDRIVER")
-SBR_WEBDRIVER="chromedriver-win64\chromedriver.exe"
+SBR_WEBDRIVER = os.getenv("SBR_WEBDRIVER")
+# SBR_WEBDRIVER="chromedriver-win64\chromedriver.exe"
 print(f"Driver connected to : {SBR_WEBDRIVER}")
 def scrape_website(website):
     print("Connecting to Scraping Browser...")
