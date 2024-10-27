@@ -15,7 +15,7 @@ print(f"Driver connected to : {SBR_WEBDRIVER}")
 def scrape_website(website):
     print("Connecting to Scraping Browser...")
     # Set Chrome options (optional headless mode)
-    options = Options()git 
+    options = Options()
     options.add_argument("--headless")  # Run in headless mode
     options.add_argument("--disable-gpu")  # Disable GPU rendering
     options.add_argument("--no-sandbox")  # Bypass OS security model
@@ -30,7 +30,7 @@ def scrape_website(website):
     Shared Memory Limitations: In a headless environment, particularly on lightweight instances, the shared memory space (/dev/shm) may be limited. If Chrome tries to use more shared memory than is available, it may crash or not function properly.
     Prevent Crashes: By disabling this option, Chrome will not attempt to use shared memory, reducing the risk of running into memory-related errors.
     '''
-    
+
     chrome_options.binary_location = "/usr/bin/google-chrome"
 
     options.add_argument(
