@@ -20,7 +20,7 @@ def scrape_website(website):
     options.add_argument("--disable-gpu")  # Disable GPU rendering
     options.add_argument("--no-sandbox")  # Bypass OS security model
     # For Amazon Linux OS | EC2 Instance
-    chrome_options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-dev-shm-usage")
     '''
     # `chrome_options.add_argument("--disable-dev-shm-usage")`
     This argument disables the use of `/dev/shm`, which is a temporary filesystem (shared memory) used by Linux for inter-process communication.
